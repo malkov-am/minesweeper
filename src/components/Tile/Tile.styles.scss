@@ -1,0 +1,46 @@
+$sprite: url('../../images/sprites.png');
+
+.field__tile {
+  appearance: none;
+  background: $sprite no-repeat;
+  width: 16px;
+  height: 16px;
+  border: none;
+
+  &-empty {
+    background-position: -17px -51px;
+  }
+  &-one {
+    background-position: 0 -68px;
+  }
+  &-two {
+    background-position: -17px -68px;
+  }
+  &-three {
+    background-position: -34px -68px;
+  }
+  &-four {
+    background-position: -51px -68px;
+  }
+  &-five {
+    background-position: -68px -68px;
+  }
+  &-six {
+    background-position: -85px -68px;
+  }
+  &-seven {
+    background-position: -102px -68px;
+  }
+  &-eight {
+    background-position: -119px -68px;
+  }
+  &-mine {
+    background-position: -85px -51px;
+  }
+  &-flag {
+    background-position: -34px -51px;
+  }
+  &-hidden {
+    background-position: 0 -51px;
+  }
+}

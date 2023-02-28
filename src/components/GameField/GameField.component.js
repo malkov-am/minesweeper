@@ -1,17 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './GameField.styles.scss';
 import { FIELD_HEIGHT, FIELD_WIDTH, MINES_QUANTITY, MINE } from '../../utils/constants';
-import clsx from 'clsx';
+import Tile from '../Tile/Tile.component';
 
 const GameField = () => {
   const [tilesState, setTilesState] = useState(Array(FIELD_HEIGHT * FIELD_WIDTH).fill('hidden'));
+  const [field, setField] = useState(setupField());
+  useEffect(() => {
+    console.log(tilesState);
+  }, [tilesState]);
   // Функция получения индекса массива по игровым координатам
   function getArrayIndex(x, y) {
     return y * FIELD_WIDTH + x;
   }
-  // Создадим массив плиток
-  const field = Array(FIELD_HEIGHT * FIELD_WIDTH).fill(0);
   function setupField() {
+    // Создадим массив плиток
+    const field = Array(FIELD_HEIGHT * FIELD_WIDTH).fill(0);
     // При помощи цикла for расположим мины на поле в случайном порядке
     for (let i = 0; i <= MINES_QUANTITY; i++) {
       const randomTile = Math.floor(Math.random() * FIELD_HEIGHT * FIELD_WIDTH);
@@ -36,32 +40,30 @@ const GameField = () => {
         }
       }
     }
+    return field;
   }
-  setupField();
-  function openTile(tilePosition) {}
+  function openTile(tilePosition) {
+    setTilesState(
+      tilesState.map((state, i) => {
+        if (i !== tilePosition) {
+          return tilesState[i];
+        } else {
+          return 'open';
+        }
+      }),
+    );
+  }
 
   return (
     <div className="field">
       {field.map((tile, index) => {
         return (
-          <button
-            className={clsx(
-              'field__tile',
-              tile === -1 && 'field__tile-mine',
-              tile === 0 && 'field__tile-empty',
-              tile === 1 && 'field__tile-one',
-              tile === 2 && 'field__tile-two',
-              tile === 3 && 'field__tile-three',
-              tile === 4 && 'field__tile-four',
-              tile === 5 && 'field__tile-five',
-              tile === 6 && 'field__tile-six',
-              tile === 7 && 'field__tile-seven',
-              tile === 8 && 'field__tile-eight',
-              tilesState[index] === 'hidden' && 'field__tile-hidden',
-            )}
+          <Tile
             key={index}
-            onClick={() => openTile(index)}
-          ></button>
+            tile={tile}
+            tileState={tilesState[index]}
+            onOpenTile={() => openTile(index)}
+          />
         );
       })}
     </div>
